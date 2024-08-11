@@ -31,3 +31,10 @@ class RegisterForm(forms.Form):
             raise forms.ValidationError('Not correct email or captcha')
         captcha_model.delete()
         return captcha
+
+
+class LoginFrom(forms.Form):
+    email = forms.EmailField(error_messages={'required': 'Please enter email',
+                                             'invalid': 'Please enter correct email'})
+    password = forms.CharField(max_length=20, min_length=6)
+    remember = forms.IntegerField(required=False)
