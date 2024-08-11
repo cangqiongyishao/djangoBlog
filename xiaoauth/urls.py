@@ -6,6 +6,7 @@ app_name = 'xiaoauth'
 
 urlpatterns = [
     path('login', views.xiaologin, name='login'),
+    path('logout', views.xiaologout, name='logout'),
     path('register', views.register, name='register'),
     path('captcha', views.send_email_captcha, name='email_captcha')
 ]
