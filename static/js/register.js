@@ -8,6 +8,21 @@ $(function () {
                 return;
             }
             $this.off('click');
+
+            $.ajax('/auth/captcha?email=' + email, {
+                method: 'GET',
+                success: function (result) {
+                    if (result['code'] == 200) {
+                        alert('Captcha send successfully!');
+                    } else {
+                        alert(result['message'])
+                    }
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            })
+
             let countdown = 6;
             let timer = setInterval(function () {
                 if (countdown <= 0) {
