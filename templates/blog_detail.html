@@ -20,7 +20,9 @@
     <hr>
     <div class="mt-2">
         <h3>comment(10)</h3>
-        <form action="" method="POST">
+        <form action="{% url 'blog:pub_comment' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="blog_id" value="{{ blog_id }}">
             <div class="mt-2">
                 <input type="text" class="form-control" placeholder="leave comment">
             </div>
