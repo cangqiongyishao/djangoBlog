@@ -32,8 +32,8 @@ def pub_blog(request):
             title = form.cleaned_data.get('title')
             content = form.cleaned_data.get('content')
             category_id = form.cleaned_data.get('category')
-            Blog.objects.create(title=title, content=content, category_id=category_id, author=request.user)
-            return JsonResponse({'Code': 200, 'message': 'Blog post successfully!'})
+            blog = Blog.objects.create(title=title, content=content, category_id=category_id, author=request.user)
+            return JsonResponse({'code': 200, 'message': 'Blog post successfully!', 'data': {'blog_id': blog.id}})
         else:
             print(form.errors)
             return JsonResponse({'code': 400, 'message': 'Invalid parameter'})

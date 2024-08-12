@@ -26,4 +26,25 @@ window.onload = function () {
         config: toolbarConfig,
         mode: 'default', // or 'simple'
     })
+
+    $('#submit-btn').click(function (event) {
+        event.preventDefault();
+
+        let title = $("input[name='title']").val();
+        let category = $("#category-select").val();
+        let content = editor.getHtml();
+        let csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
+        $.ajax('/blog/pub', {
+            method: 'POST',
+            data: {title, category, content, csrfmiddlewaretoken},
+            success: function (result) {
+                if (result['code'] == 200) {
+                    let blog_id = result['data']['blog_id']
+                    window.location = '/blog/detail/' + blog_id
+                } else {
+                    alert(result['message']);
+                }
+            }
+        })
+    })
 }
