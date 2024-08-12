@@ -1,21 +1,62 @@
-import random
-import string
-
-from django.core.mail import send_mail
+from django.shortcuts import render, redirect, reverse
 from django.http.response import JsonResponse
-from django.shortcuts import render
-
+import string
+import random
+from django.core.mail import send_mail
 from .models import CaptchaModel
+from django.views.decorators.http import require_http_methods
+from .forms import RegisterForm, LoginFrom
+from django.contrib.auth import get_user_model, login, logout
+from django.contrib.auth.models import User
+
+User = get_user_model()
 
 
 # Create your views here.
+@require_http_methods(['GET', 'POST'])
+def xiaologin(request):
+    if request.method == 'GET':
+        return render(request, 'login.html')
+    else:
+        form = LoginFrom(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
+            remember = form.cleaned_data.get('remember')
+            user = User.objects.filter(email=email).first()
+            if user and user.check_password(password):
+                login(request, user)
+                if not remember:
+                    request.session.set_expiry(0)
+                return redirect('/')
+            else:
+                print('email or password incorrect')
+                # form.add_error('email', 'email or password incorrect')
+                # return render(request, 'login.html', context={form: form})
+                return redirect(reverse('xiaoauth:login'))
 
-def login(request):
-    return render(request, 'login.html')
+
+def xiaologout(request):
+    logout(request)
+    return redirect('/')
 
 
+@require_http_methods(['GET', 'POST'])
 def register(request):
-    return render(request, 'register.html')
+    if request.method == 'GET':
+        return render(request, 'register.html')
+    else:
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get('email')
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            User.objects.create_user(email=email, username=username, password=password)
+            return redirect(reverse('xiaoauth:login'))
+        else:
+            print(form.errors)
+            return redirect(reverse('xiaoauth:register'))
+            # return render(request, 'register.html', context={'form': form})
 
 
 def send_email_captcha(request):
