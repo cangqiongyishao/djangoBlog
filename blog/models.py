@@ -26,7 +26,7 @@ class Blog(models.Model):
 class BlogComment(models.Model):
     content = models.TextField()
     pub_time = models.DateTimeField(auto_now_add=True)
-    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

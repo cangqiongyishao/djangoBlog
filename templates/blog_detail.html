@@ -19,34 +19,37 @@
     </div>
     <hr>
     <div class="mt-2">
-        <h3>comment(10)</h3>
+        <h3>comment（{{ blog.comments.all|length }}）</h3>
         <form action="{% url 'blog:pub_comment' %}" method="POST">
             {% csrf_token %}
-            <input type="hidden" name="blog_id" value="{{ blog_id }}">
+            <input type="hidden" name="blog_id" value="{{ blog.id }}">
             <div class="mt-2">
-                <input type="text" class="form-control" placeholder="leave comment">
+                <input type="text" class="form-control" placeholder="Leave comment" name="content">
             </div>
             <div class="text-end mt-2">
-                <button type="button" class="btn btn-primary">comment</button>
+                <button type="submit" class="btn btn-primary">comment</button>
             </div>
 
         </form>
     </div>
     <div class="mt-2">
         <ul class="list-group list-group-flush">
-            <li class="list-group-item mb-2">
-                <div class="d-flex justify-content-between text-body-secondary">
-                    <div class="base-info">
-                        <img src="{% static 'image/avatar.webp' %}" class="rounded-circle" width="40" height="40"
-                             alt="">
-                        <span class="ms-2">Iron man</span>
+            {% for comment in blog.comments.all %}
+                
+                <li class="list-group-item mb-2">
+                    <div class="d-flex justify-content-between text-body-secondary">
+                        <div class="base-info">
+                            <img src="{% static 'image/avatar.webp' %}" class="rounded-circle" width="40" height="40"
+                                 alt="">
+                            <span class="ms-2">{{ comment.author.username }}</span>
+                        </div>
+                        <div class="create-time align-content-center">
+                            {{ comment.pub_time|date:'Y/m/d h:i' }}
+                        </div>
                     </div>
-                    <div class="create-time align-content-center">
-                        2024年8月7日 17:13
-                    </div>
-                </div>
-                <div class="mt-2">comment detail</div>
-            </li>
+                    <div class="mt-2">{{ comment.content }}</div>
+                </li>
+                {% endfor %}
         </ul>
 
     </div>
