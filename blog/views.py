@@ -2,15 +2,17 @@ from django.shortcuts import render, redirect, reverse
 from django.http.response import JsonResponse
 from django.urls.base import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_http_methods, require_POST
+from django.views.decorators.http import require_http_methods, require_POST, require_GET
 from .models import BlogCategory, BlogComment, Blog
 from .forms import PubBlogForm
+from django.db.models import Q
 
 
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html')
+    blogs = Blog.objects.all()
+    return render(request, 'index.html', context={'blogs': blogs})
 
 
 def blog_detail(request, blog_id):
@@ -50,3 +52,12 @@ def pub_comment(request):
     content = request.POST.get('content')
     BlogComment.objects.create(content=content, blog_id=blog_id, author=request.user)
     return redirect(reverse('blog:blog_detail', kwargs={'blog_id': blog_id}))
+
+
+@require_GET
+def search(request):
+    # /search?q=xxx
+    q = request.GET.get('q')
+    # 从博客的标题和内容中查找含有q关键字的博客
+    blogs = Blog.objects.filter(Q(title__icontains=q) | Q(content__icontains=q)).all()
+    return render(request, 'index.html', context={"blogs": blogs})

@@ -22,6 +22,9 @@ class Blog(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        ordering = ['-pub_time']
+
 
 class BlogComment(models.Model):
     content = models.TextField()
@@ -31,3 +34,6 @@ class BlogComment(models.Model):
 
     def __str__(self):
         return self.content
+
+    class Meta:
+        ordering = ['-pub_time']

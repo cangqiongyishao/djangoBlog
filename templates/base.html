@@ -22,8 +22,8 @@
                 <li><a href="{% url 'blog:pub_blog' %}" class="nav-link px-2 text-secondary">Post</a></li>
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="{% url 'blog:search' %}" method="GET">
+                <input type="search" name='q' class="form-control" placeholder="Search..." aria-label="Search">
             </form>
 
             {% if user.is_authenticated %}
