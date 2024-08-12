@@ -14,7 +14,11 @@ def index(request):
 
 
 def blog_detail(request, blog_id):
-    return render(request, 'blog_detail.html')
+    try:
+        blog = Blog.objects.get(pk=blog_id)
+    except Exception as e:
+        blog = None
+    return render(request, 'blog_detail.html', context={'blog': blog})
 
 
 # @login_required(login_url=reverse_lazy('xiaoauth:login'))

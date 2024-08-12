@@ -1,21 +1,21 @@
 {% extends 'base.html' %}
 
 {% block title %}
-	BlogDetail
+    BlogDetail
 {% endblock %}
 
 {% block main %}
-    <h1>BlogDetail</h1>
+    <h1>{{ blog.title }}</h1>
     <hr>
     <div class="mt-2">
         <img src="{% static 'image/avatar.webp' %}" class="rounded-circle" width="30" height="30" alt="">
-        <span class="ms-2">Iron Man</span>
-        <span class="ms-2">于</span>
-        <span class="ms-2"> 2024年8月5日 17:13</span>发布
+        <span class="ms-2">{{ blog.author.username }}</span>
+        <span class="ms-2">at</span>
+        <span class="ms-2"> {{ blog.pub_time|date:'Y/m/d h:i' }}</span>
     </div>
     <hr>
     <div class="py-2">
-        Here is the detail
+        {{ blog.content|safe }}
     </div>
     <hr>
     <div class="mt-2">
@@ -35,7 +35,8 @@
             <li class="list-group-item mb-2">
                 <div class="d-flex justify-content-between text-body-secondary">
                     <div class="base-info">
-                        <img src="{% static 'image/avatar.webp' %}" class="rounded-circle" width="40" height="40" alt="">
+                        <img src="{% static 'image/avatar.webp' %}" class="rounded-circle" width="40" height="40"
+                             alt="">
                         <span class="ms-2">Iron man</span>
                     </div>
                     <div class="create-time align-content-center">
@@ -45,6 +46,6 @@
                 <div class="mt-2">comment detail</div>
             </li>
         </ul>
-        
+
     </div>
 {% endblock %}
