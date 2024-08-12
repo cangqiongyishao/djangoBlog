@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 
+{% block head %}
+    <link rel="stylesheet" href="{% static 'highlight/styles/github-dark.min.css' %}">
+    <script src="{% static 'highlight/highlight.min.js' %}"></script>
+{% endblock %}
+
 {% block title %}
     BlogDetail
 {% endblock %}
@@ -35,7 +40,7 @@
     <div class="mt-2">
         <ul class="list-group list-group-flush">
             {% for comment in blog.comments.all %}
-                
+
                 <li class="list-group-item mb-2">
                     <div class="d-flex justify-content-between text-body-secondary">
                         <div class="base-info">
@@ -49,8 +54,11 @@
                     </div>
                     <div class="mt-2">{{ comment.content }}</div>
                 </li>
-                {% endfor %}
+            {% endfor %}
         </ul>
 
     </div>
+    <script>
+        hljs.highlightAll();
+    </script>
 {% endblock %}
