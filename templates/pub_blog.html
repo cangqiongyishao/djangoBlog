@@ -35,8 +35,10 @@
             <div class="mb-3">
                 <label class="form-label">Category</label>
                 <select name="category" class="form-select">
-                    <option value="1">Python</option>
-                    <option value="2">Frontend</option>
+                    {% for category in categories %}
+                    	<option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                    
                 </select>
             </div>
             <div class="mb-3">
